@@ -1,0 +1,239 @@
+Sub TeleLogSheetMaker()
+'
+' TeleLogSheet Macro
+' Creates a Telemetry Log Sheet using the names from the 'Print to Excel' TeleTracking sheet.
+'
+
+
+' Check if the uploaded TeleTracking sheet exists and if the date in M1 is current
+Dim dateOnTTSheet As Date
+dateOnTTSheet = Int(CDate(ActiveSheet.Cells(1, 13).Value))
+
+If dateOnTTSheet = Date Then
+Else
+    ActiveWorkbook.Sheets.Add.Name = "4E TELEMETRY LOG"
+    Worksheets("4E TELEMETRY LOG").Cells(1, 1).Value2 = "There is a problem!  The date on the TeleTracking Sheet does not match the current date! Please get a new Excel TeleTracking Sheet and try again."
+    Exit Sub
+End If
+
+ActiveWorkbook.Sheets.Add.Name = "4E TELEMETRY LOG"
+
+With Worksheets("4E TELEMETRY LOG")
+    .Columns("A").ColumnWidth = 6
+    .Columns("B").ColumnWidth = 2.75
+    .Columns("C").ColumnWidth = 22
+    .Columns("D").ColumnWidth = 8
+    .Columns("E").ColumnWidth = 6.5
+    .Columns("F").ColumnWidth = 6
+    .Columns("G").ColumnWidth = 21
+    .Columns("H").ColumnWidth = 22
+
+    .Rows("1").RowHeight = 19
+    .Rows("2:92").RowHeight = 16
+    .Rows("47").RowHeight = 19
+
+    .Range("A2:A4").Merge
+    .Range("A5:A7").Merge
+    .Range("A8:A10").Merge
+    .Range("A11:A13").Merge
+    .Range("A14:A16").Merge
+    .Range("A17:A19").Merge
+    .Range("A20:A22").Merge
+    .Range("A23:A25").Merge
+    .Range("A26:A28").Merge
+    .Range("A29:A31").Merge
+    .Range("A32:A34").Merge
+    .Range("A35:A37").Merge
+    .Range("A38:A40").Merge
+    .Range("A41:A43").Merge
+    .Range("A44:A46").Merge
+    
+    .Range("A48:A50").Merge
+    .Range("A51:A53").Merge
+    .Range("A54:A56").Merge
+    .Range("A57:A59").Merge
+    .Range("A60:A62").Merge
+    .Range("A63:A65").Merge
+    .Range("A66:A68").Merge
+    .Range("A69:A71").Merge
+    .Range("A72:A74").Merge
+    .Range("A75:A77").Merge
+    .Range("A78:A80").Merge
+    .Range("A81:A83").Merge
+    .Range("A84:A86").Merge
+    .Range("A87:A89").Merge
+    .Range("A90:A92").Merge
+End With
+
+
+Worksheets("4E TELEMETRY LOG").PageSetup.LeftMargin = _
+    Application.InchesToPoints(0.4)
+Worksheets("4E TELEMETRY LOG").PageSetup.RightMargin = _
+    Application.InchesToPoints(0.4)
+Worksheets("4E TELEMETRY LOG").PageSetup.BottomMargin = _
+    Application.InchesToPoints(0.4)
+Worksheets("4E TELEMETRY LOG").PageSetup.TopMargin = _
+    Application.InchesToPoints(0.7)
+
+Worksheets("4E TELEMETRY LOG").PageSetup.LeftHeader = "DATE: &D" & vbCr & "4E TELEMETRY LOG"
+Worksheets("4E TELEMETRY LOG").PageSetup.CenterHeader = "SHIFT: 7A / 7P"
+Worksheets("4E TELEMETRY LOG").PageSetup.RightHeader = "TT: 1.____________________________" & vbCr & "  2.____________________________"
+
+With Worksheets("4E TELEMETRY LOG").Range("A1:H92")
+    .Borders.LineStyle = xlContinuous
+    .Borders.Color = vbBlack
+    .Borders.Weight = xlThin
+End With
+
+Worksheets("4E TELEMETRY LOG").Range("A1:H92").BorderAround _
+    LineStyle:=xlContinuous, Weight:=xlThick, Color:=vbBlack
+Worksheets("4E TELEMETRY LOG").Range("A46:H46").Borders(xlEdgeBottom).Weight = xlThick
+Worksheets("4E TELEMETRY LOG").Range("A47:H47").Borders(xlEdgeTop).Weight = xlThick
+
+
+' Loop through each row to input numbers, names, and top border style
+
+Dim rng As Range, row As Range
+Set rng = Worksheets("4E TELEMETRY LOG").Range("A2:H46")
+
+Dim i As Integer, roomNum As Integer
+i = 0
+roomNum = 4201
+
+For Each row In rng.Rows
+    row.Cells(1, 2).Value2 = i Mod 3 + 1
+    If i Mod 3 = 0 Then
+        ' make double line at top border
+        row.Borders(xlEdgeTop).LineStyle = xlDouble
+        row.Cells(1, 1).Value2 = roomNum
+        roomNum = roomNum + 1
+    End If
+    i = i + 1
+Next row
+
+
+Set rng = Worksheets("4E TELEMETRY LOG").Range("A48:H92")
+
+i = 0
+roomNum = 4216
+
+For Each row In rng.Rows
+    row.Cells(1, 2).Value2 = i Mod 3 + 1
+    If i Mod 3 = 0 Then
+        ' make double line at top border
+        row.Borders(xlEdgeTop).LineStyle = xlDouble
+        row.Cells(1, 1).Value2 = roomNum
+        roomNum = roomNum + 1
+    End If
+    i = i + 1
+Next row
+
+
+
+With Worksheets("4E TELEMETRY LOG")
+    .Cells(1, 1).Value2 = "RM #"
+    .Cells(1, 3).Value2 = "PATIENT'S NAME"
+    .Cells(1, 4).Value2 = "BIRTHDATE"
+    .Cells(1, 5).Value2 = "TELE #"
+    .Cells(1, 6).Value2 = "HR"
+    .Cells(1, 7).Value2 = "RHYTHM"
+    .Cells(1, 8).Value2 = "COMMENT"
+    .Range("A1:H1").Font.Size = 8
+    
+    .Cells(47, 1).Value2 = "RM #"
+    .Cells(47, 3).Value2 = "PATIENT'S NAME"
+    .Cells(47, 4).Value2 = "BIRTHDATE"
+    .Cells(47, 5).Value2 = "TELE #"
+    .Cells(47, 6).Value2 = "HR"
+    .Cells(47, 7).Value2 = "RHYTHM"
+    .Cells(47, 8).Value2 = "COMMENT"
+    .Range("A47:H47").Font.Size = 8
+End With
+
+With Worksheets("4E TELEMETRY LOG").Range("A1:H92")
+    .VerticalAlignment = xlCenter
+    .HorizontalAlignment = xlHAlignCenter
+End With
+
+' Duplicate 4th floor sheet and call the new sheet "5E TELEMETRY LOG"
+
+Worksheets("4E TELEMETRY LOG").Copy After:=Worksheets("4E TELEMETRY LOG")
+Worksheets("4E TELEMETRY LOG (2)").Name = "5E TELEMETRY LOG"
+
+Worksheets("5E TELEMETRY LOG").PageSetup.LeftHeader = "DATE: &D" & vbCr & "5E TELEMETRY LOG"
+
+' Change room numbers to 5th floor
+
+Set rng = Worksheets("5E TELEMETRY LOG").Range("A2:H46")
+
+i = 0
+roomNum = 5201
+
+For Each row In rng.Rows
+    If i Mod 3 = 0 Then
+        ' make double line at top border
+        row.Borders(xlEdgeTop).LineStyle = xlDouble
+        row.Cells(1, 1).Value2 = roomNum
+        roomNum = roomNum + 1
+    End If
+    i = i + 1
+Next row
+
+
+Set rng = Worksheets("5E TELEMETRY LOG").Range("A48:H92")
+
+i = 0
+roomNum = 5216
+
+For Each row In rng.Rows
+    If i Mod 3 = 0 Then
+        ' make double line at top border
+        row.Borders(xlEdgeTop).LineStyle = xlDouble
+        row.Cells(1, 1).Value2 = roomNum
+        roomNum = roomNum + 1
+    End If
+    i = i + 1
+Next row
+
+
+
+' input names from TeleTracking sheet into 4th and 5th floor sheets
+' 4th floor names: I10:I68 even only
+' 5th floor names: I71:I129 odd only
+
+Dim j As Integer
+j = 2
+
+For i = 10 To 38 Step 2
+    Worksheets("4E TELEMETRY LOG").Cells(j, 3) = Worksheets("Sheet1").Cells(i, 9).Value2
+    j = j + 3
+Next
+
+j = 48
+For i = 40 To 68 Step 2
+    Worksheets("4E TELEMETRY LOG").Cells(j, 3) = Worksheets("Sheet1").Cells(i, 9).Value2
+    j = j + 3
+Next
+
+Worksheets("4E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
+
+' 5th names
+j = 2
+
+For i = 71 To 101 Step 2
+    Worksheets("5E TELEMETRY LOG").Cells(j, 3) = Worksheets("Sheet1").Cells(i, 9).Value2
+    j = j + 3
+Next
+
+j = 48
+For i = 103 To 129 Step 2
+    Worksheets("5E TELEMETRY LOG").Cells(j, 3) = Worksheets("Sheet1").Cells(i, 9).Value2
+    j = j + 3
+Next
+
+Worksheets("5E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
+
+
+
+'
+End Sub
