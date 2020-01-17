@@ -19,14 +19,14 @@ End If
 ActiveWorkbook.Sheets.Add.Name = "4E TELEMETRY LOG"
 
 With Worksheets("4E TELEMETRY LOG")
-    .Columns("A").ColumnWidth = 5.4
-    .Columns("B").ColumnWidth = 2.5
+    .Columns("A").ColumnWidth = 4
+    .Columns("B").ColumnWidth = 1.3
     .Columns("C").ColumnWidth = 22
-    .Columns("D").ColumnWidth = 8.75
+    .Columns("D").ColumnWidth = 10
     .Columns("E").ColumnWidth = 6.5
-    .Columns("F").ColumnWidth = 6
-    .Columns("G").ColumnWidth = 15.15
-    .Columns("H").ColumnWidth = 28
+    .Columns("F").ColumnWidth = 5.4
+    .Columns("G").ColumnWidth = 21
+    .Columns("H").ColumnWidth = 24
    
     .Rows("1").RowHeight = 19
     .Rows("2:92").RowHeight = 16
