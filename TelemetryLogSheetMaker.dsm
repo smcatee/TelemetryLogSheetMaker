@@ -214,6 +214,7 @@ Loop
 
 Dim teleSheet As String, curName As String, curStatus As String, curRm As Integer, curRow As Integer, ttRow As Integer
 
+' to find Tele Tracking name column search range of columns in row ttRow to find characters matching a name "[A-z],[A-z]" or to find "Name"
 
 lastRm = 0
 teleSheet = "4E TELEMETRY LOG"
@@ -224,7 +225,7 @@ For ttRow = 1 To lastRow
         End If
         curRm = Int(Mid(Worksheets("Sheet1").Cells(ttRow, 3), 6, 2))
         curStatus = Worksheets("Sheet1").Cells(ttRow, 5)
-        curName = Worksheets("Sheet1").Cells(ttRow, 9)
+        curName = Worksheets("Sheet1").Cells(ttRow, 8)
         If curRm < 16 Then
             curRow = (curRm * 3) - 1
             ' if different name is already in cell input into curRow + 1
