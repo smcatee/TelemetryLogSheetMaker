@@ -1,0 +1,72 @@
+Sub FindAndReplace()
+
+Dim rng As Range, row As Range
+Set rng = Range("G2:H92")
+
+
+Dim Acronym(1 To 14) As String
+
+Acronym(1) = "S"
+Acronym(2) = "s"
+Acronym(3) = "A"
+Acronym(4) = "a"
+Acronym(5) = "AF"
+Acronym(6) = "af"
+Acronym(7) = "J"
+Acronym(8) = "j"
+Acronym(9) = "B"
+Acronym(10) = "b"
+Acronym(11) = "P"
+Acronym(12) = "p"
+Acronym(13) = "V"
+Acronym(14) = "v"
+
+
+Dim Rhythm(1 To 14) As String, index As Integer
+
+
+Rhythm(1) = "SR"
+Rhythm(2) = "SR"
+Rhythm(3) = "AFIB"
+Rhythm(4) = "AFIB"
+Rhythm(5) = "AFL"
+Rhythm(6) = "AFL"
+Rhythm(7) = "JUNCT"
+Rhythm(8) = "JUNCT"
+Rhythm(9) = "BBB"
+Rhythm(10) = "BBB"
+Rhythm(11) = "PVC"
+Rhythm(12) = "PVC"
+Rhythm(13) = "VP"
+Rhythm(14) = "VP"
+
+
+For Each row In rng.Rows
+    index = 1
+    For Each acro In Acronym()
+    
+        If row.Cells(1, 1).Value2 = acro Then
+            row.Cells(1, 1).Value2 = Rhythm(index)
+        
+            If index < 3 Then
+                If row.Cells(1, 1).Offset(0, -1).Value2 < 60 And row.Cells(1, 1).Offset(0, -1).Value2 > 0 Then
+                    row.Cells(1, 1).Value2 = "SB"
+                ElseIf row.Cells(1, 1).Offset(0, -1).Value2 > 99 Then
+                    row.Cells(1, 1).Value2 = "ST"
+                End If
+            End If
+        End If
+        
+        
+        If row.Cells(1, 2).Value2 = acro Then
+            row.Cells(1, 2).Value2 = Rhythm(index)
+        End If
+        
+        index = index + 1
+        
+    Next acro
+Next row
+
+
+
+End Sub
