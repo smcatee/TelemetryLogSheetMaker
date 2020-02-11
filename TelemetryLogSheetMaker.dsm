@@ -4,18 +4,6 @@ Sub TeleLogSheetMaker()
 ' Creates a Telemetry Log Sheet using the names from the 'Print to Excel' TeleTracking sheet.
 '
 
-
-' Check if the uploaded TeleTracking sheet exists and if the date in M1 is current
-Dim dateOnTTSheet As Date
-dateOnTTSheet = Int(CDate(ActiveSheet.Cells(1, 13).Value))
-
-If dateOnTTSheet = Date Then
-Else
-    ActiveWorkbook.Sheets.Add.Name = "4E TELEMETRY LOG"
-    Worksheets("4E TELEMETRY LOG").Cells(1, 1).Value2 = "There is a problem!  The date on the TeleTracking Sheet does not match the current date! Please get a new Excel TeleTracking Sheet and try again."
-    Exit Sub
-End If
-
 ActiveWorkbook.Sheets.Add.Name = "4E TELEMETRY LOG"
 
 With Worksheets("4E TELEMETRY LOG")
