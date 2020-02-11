@@ -212,7 +212,15 @@ Do While j > 0
 Loop
 
 
-Dim teleSheet As String, curName As String, curStatus As String, curRm As Integer, curRow As Integer, ttRow As Integer
+Dim teleSheet As String, curName As String, nameCol As Integer, curStatus As String, curRm As Integer, curRow As Integer, ttRow As Integer
+
+' Find Tele Tracking name column as either col 8 or 9
+nameCol = 9 ' most common name col set as default
+For curCol = 8 To 9
+    If Worksheets("Sheet1").Cells(8, curCol).Value2 = "Name" Then
+        nameCol = curCol
+    End If
+Next curCol
 
 
 lastRm = 0
@@ -224,7 +232,7 @@ For ttRow = 1 To lastRow
         End If
         curRm = Int(Mid(Worksheets("Sheet1").Cells(ttRow, 3), 6, 2))
         curStatus = Worksheets("Sheet1").Cells(ttRow, 5)
-        curName = Worksheets("Sheet1").Cells(ttRow, 9)
+        curName = Worksheets("Sheet1").Cells(ttRow, nameCol)
         If curRm < 16 Then
             curRow = (curRm * 3) - 1
             ' if different name is already in cell input into curRow + 1
