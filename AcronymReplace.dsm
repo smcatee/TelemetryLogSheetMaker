@@ -3,6 +3,7 @@ Sub FindAndReplace()
 Dim rng As Range, row As Range
 Set rng = Range("G2:H92")
 
+' Replace lookup arrays with VBA Regex 5.5 .pattern objects to accomidate more complex in-string replacements
 
 Dim Acronym(1 To 14) As String
 
