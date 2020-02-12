@@ -1,0 +1,12 @@
+Sub LoadDOB()
+
+' Uploads and assigns DOB to patients using downloaded .txt file
+' To download the .txt file first download the TeleTracking website as HTML only then run the following Powershell line
+'    Select-String -Path '.\Desktop\Unit Patients.htm' -Pattern '(patientfield button)|(patientfield name)|(class=age-)' | ForEach-Object { $_.Line.Split("=")[1].Split("class")[0].Replace("`"","") | Out-File -append -FilePath '.\Desktop\Patient_Name_DOB.txt' }
+
+Dim myFile As String, text As String, textline As String, patientName As String, patientDOB As Date
+
+myFile = ""
+
+
+End Sub
