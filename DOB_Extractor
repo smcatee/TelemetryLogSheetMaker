@@ -1,1 +1,1 @@
-Select-String -Path '.\Desktop\Unit Patients.htm' -Pattern '(patientfield button)|(class=age-)' | ForEach-Object { $_.Line.Split("=")[1].Split("class")[0] }
+Select-String -Path '.\Desktop\Unit Patients.htm' -Pattern '(patientfield button)|(patientfield name)|(class=age-)' | ForEach-Object { $_.Line.Split("=")[1].Split("class")[0] }
