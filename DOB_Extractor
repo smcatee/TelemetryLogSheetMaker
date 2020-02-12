@@ -1,1 +1,1 @@
-Select-String -Path '.\Unit Patients.htm' -Pattern 'patientfield button' -Contex 0,4 | ForEach-Object { $_.Line; $_.Context.PostContext }
+Select-String -Path '.\Desktop\Unit Patients.htm' -Pattern '(patientfield button)|(class=age-)' | ForEach-Object { $_.Line.Split("=")[1].Split("class")[0] }
