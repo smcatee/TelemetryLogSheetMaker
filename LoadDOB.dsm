@@ -2,9 +2,14 @@ Sub ReadFileLineByLine()
     Dim my_file As Integer
     Dim text_line As String
     Dim file_name As String
+    Dim workbookPath As String
+    Dim userPath As String
     Dim i As Integer
     
-    file_name = "C:\Users\maguilera1\Desktop\Patient_Name_DOB.txt"
+    file_name = "Desktop\Patient_Name_DOB.txt"
+    workbookPath = Application.ActiveWorkbook.Path
+    userPath = Join(Split(workbookPath, "AppData", 1))
+    file_name = userPath & file_name
 
     my_file = FreeFile()
     Open file_name For Input As my_file
