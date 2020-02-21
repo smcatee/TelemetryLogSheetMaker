@@ -248,5 +248,89 @@ Worksheets("4E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
 Worksheets("5E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
 
 
+
+' Patient DOB from Patient_Name_DOB.txt
+'Doesnt break, but doesnt work
+
+Dim filePath As String
+
+filePath = Application.DefaultFilePath
+filePath = Replace(Replace(filePath, "\\cmhs.org\profiles", "C:\Users"), "Documents", "Desktop\Patient_Name_DOB.txt")
+
+' Check if document exists
+If Len(Dir(filePath)) > 0 Then
+    ' Check if document is less than 60 minutes old
+    If DateDiff("n", FileDateTime(filePath), Now) < 60 Then
+        Cells(3, 2).Value2 = DateDiff("n", FileDateTime(filePath), Now)
+    
+        ' Read through doc line by line, assigning DOB to matching rm# and name
+        Dim my_file As Integer
+        Dim text_line As String
+        Dim i As Integer
+        Dim curRmNumberRow As Integer
+        Dim curWB As String
+        
+        Dim nameMatch As Boolean
+        
+
+        my_file = FreeFile()
+        Open filePath For Input As my_file
+
+        ActiveWorkbook.Sheets.Add.Name = "TempDOB"
+        i = 1
+        curRmNumberRow = 1
+        curWB = "4E TELEMETRY LOG"
+        nameMatch = False
+        While Not EOF(my_file)
+            Line Input #my_file, text_line
+            
+            ' cleans up junk characters at beginning of file
+            If i = 1 Then
+                text_line = Right(text_line, Len(text_line) - 2)
+            End If
+        
+            Worksheets("TempDOB").Cells(i, "A").Value2 = text_line
+            
+            ' Determine Workbook and row using room# value
+            If IsNumeric(text_line) Then
+                nameMatch = False
+                
+                If text_line < 5000 Then
+                    curWB = "4E TELEMETRY LOG"
+                Else
+                    curWB = "5E TELEMETRY LOG"
+                End If
+                
+                text_line = Right(text_line, Len(text_line) - 2)
+                If text_line <= 15 Then
+                    curRmNumberRow = (text_line * 3) - 1
+                ElseIf text_line <= 30 Then
+                    curRmNumberRow = (text_line * 3)
+                End If
+                
+            ' check if text_line matches the name at curWB and curRmNumberRow
+            ElseIf InStr(text_line, ",") Then
+                If StrComp(text_line, Worksheets(curWB).Cells(curRmNumberRow, 3), vbBinaryCompare) Then
+                    nameMatch = True
+                Else
+                    nameMatch = False
+                End If
+            
+            ' if previous text_line resulted in nameMatch = True then input date
+            ElseIf IsDate(text_line) And nameMatch Then
+                nameMatch = False
+                
+                Worksheets(curWB).Cells(curRmNumberRow, 4).Value = text_line
+                
+            End If
+            
+            i = i + 1
+        Wend
+    End If
+End If
+
+
+
+
 End Sub
 
