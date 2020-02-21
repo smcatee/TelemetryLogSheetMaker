@@ -257,19 +257,25 @@ Worksheets("5E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
 
 'file_name = "\Patient_Name_DOB.txt"
 'filePath = Application.DefaultFilePath
-'userPath = Replace(Replace(filePath, "Documents", "Desktop"), "\\cmhs.org\profiles", "C:\Users")
+'userPath = Replace(filePath, "\\cmhs.org\profiles", "C:\Users")
 
 'Cells(1, 1).Value2 = userPath
+
 ' need to hold these values as variables and check for 2hr difference
 'Cells(1, 2).Value2 = FileDateTime(userPath)
 'Cells(1, 3).Value2 = Now
 
 
 ' Run powershell command
-'pscmd = "PowerShell -Command ""{Get-ScheduledTask -TaskName 'My Task' -CimSession MYLAPTOP}"""
+'pscmd = "PowerShell -Command ""{New-Item -Path '.\Desktop\' -Name "Patient_Name_DOB.txt" -ItemType "file" -Value "" -Force | Out-Null;Set-Variable -Name "curUser" -Value ($pwd.Path -replace("C.*\\.*\\","")); @("\\cmhs.org\profiles\$curUser\Documents\Unit Patients.htm", "C:\Users\$curUser\Desktop\Unit Patients.htm", "C:\Users\$curUser\Downloads\Unit Patients.htm") | ForEach { if (Test-Path $_){Set-Variable -Name "pathUnitPatients" -Value $_} }; Select-String -Path $pathUnitPatients -Pattern '(bedfield-text)|(patientfield button)|(patientfield name)|(class=age-)' | ForEach-Object { $_.Line -replace '\n|.*<.*bedfield.*\.|\s\S*D>|.*title=\D?|\".*patientfield.*|\sclass.*','' | Out-File -append -FilePath '.\Desktop\Patient_Name_DOB.txt' }; Clear-Variable -Name "pathUnitPatients"; Clear-Variable -Name "curUser"}"""
 
-' Load "Patient_Name_DOB.txt"
-' Match RM# and Name to assign DOB
+' Check if document exists in \Desktop
+'If Len(Dir(".\Desktop\Patient_Name_DOB.txt")) > 0 Then
+    ' Read line by line, if it is empty then what happens?
+
+'End If
+
+
 
 End Sub
 
