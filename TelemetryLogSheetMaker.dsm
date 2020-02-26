@@ -258,6 +258,12 @@ Worksheets("4E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
 Worksheets("5E TELEMETRY LOG").Range("C1:C92").Font.Size = 8
 
 
+Run "LoadDOB"
+
+
+End Sub
+
+Sub LoadDOB()
 
 
 ' Extract Patient DOB from Patient_Name_DOB.txt
@@ -334,6 +340,20 @@ If Len(Dir(filePath)) > 0 Then
             
             i = i + 1
         Wend
+    Else ' Patient_Name_DOB.txt file date is older than 60 minutes from Now
+        ' msg box, re download Unit Patients.htm and re-run powershell command
+    End If
+Else ' Patient_Name_DOB.txt files does not exist, or directory is incorrect
+    ' msg box download .txt and re-run powershell command
+    Result = MsgBox("No Patient DOB information file was found." & vbNewLine & "Would you like to get this file and upload it to your Tele Log?", vbYesNo, "Step 1 of 3")
+    If Result = vbYes Then
+        Result = MsgBox("Download .htm instructions" & vbNewLine & "download instructions", vbOKCancel, "Step 2 of 3")
+        If Result = vbOK Then
+            Result = MsgBox("powershell instructions" & vbNewLine & "powershell instructions", vbRetryCancel, "Step 3 of 3")
+            If Result = vbRetry Then
+                Run "LoadDOB"
+            End If
+        End If
     End If
 End If
 
