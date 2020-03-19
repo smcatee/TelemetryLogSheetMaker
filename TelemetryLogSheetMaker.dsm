@@ -345,6 +345,14 @@ If Len(Dir(filePath)) > 0 Then
         Wend
     Else ' Patient_Name_DOB.txt file date is older than 60 minutes from Now
         ' msg box, re download Unit Patients.htm and re-run powershell command
+        Result = MsgBox("An old Patient DOB information file was found." & vbNewLine & "Would you like to get updated information and upload it to your Tele Log?", vbYesNo, "Step 1 of 3")
+        If Result = vbYes Then
+            Result = MsgBox("Download 'Unit Patients.htm' by going to the Teletracking web page." & vbNewLine & "Click 'File' -> 'Save As...'" & vbNewLine & "Change 'Save As Type: Webpage, HTML only (*.htm;*.html)'" & vbNewLine & "Click 'Save' without changing the name", vbOKCancel, "Step 2 of 3")
+            If Result = vbOK Then
+                Result = InputBox("Open the 'Windows PowerShell' computer application" & vbNewLine & "Copy & Paste the following code into Powershell and hit ENTER" & vbNewLine & "Close Powershell and Click 'OK' on this box", "Step 3 of 3", "New-Item -Path '.\Desktop\' -Name 'Patient_Name_DOB.txt' -ItemType 'file' -Value '' -Force | Out-Null; Set-Variable -Name 'curUser' -Value ($pwd.Path -replace('C.*\\','')); @(('\\cmhs.org\profiles\'+$curUser+'\Documents\Unit Patients.htm'), ('C:\Users\'+$curUser+'\Desktop\Unit Patients.htm'), ('C:\Users\'+$curUser+'\Downloads\Unit Patients.htm')) | ForEach { if (Test-Path $_){Set-Variable -Name 'pathUnitPatients' -Value $_} }; Select-String -Path $pathUnitPatients -Pattern '(bedfield-text)|(patientfield button)|(patientfield name)|(class=age-)' | ForEach-Object { $_.Line -replace '\n|.*bedfield.*\.|\s\S*D>|.*title=\D?|\D?.class.*','' | Out-File -append -FilePath '.\Desktop\Patient_Name_DOB.txt'}; Clear-Variable -Name 'pathUnitPatients'; Clear-Variable -Name 'curUser'")
+                Run "LoadDOB"
+            End If
+        End If
     End If
 Else ' Patient_Name_DOB.txt files does not exist, or directory is incorrect
     ' msg box download .txt and re-run powershell command
